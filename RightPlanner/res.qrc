@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/forms">
-        <file>Calendar.qml</file>
+    <qresource prefix="/">
+        <file>res/forms/Calendar.qml</file>
+        <file>res/components/LabelPlanner.qml</file>
+        <file>res/images/png/burger.png</file>
     </qresource>
 </RCC>

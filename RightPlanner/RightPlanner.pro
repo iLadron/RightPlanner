@@ -31,7 +31,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Calendar.qml
+    Calendar.qml \
+    res/components/LabelPlanner.qml \
+    res/forms/Calendar.qml
 
 RESOURCES += \
     res.qrc
