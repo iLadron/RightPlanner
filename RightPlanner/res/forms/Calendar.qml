@@ -53,6 +53,18 @@ Rectangle {
                         id: imgBurger
                         anchors.fill: parent
                         source: "qrc:/res/images/png/burger.png"
+
+                        visible: {
+                            if(calendarModel !== null){
+                                for(var i = 0; i < calendarModel.datesBurger.length; i++){
+                                    if(calendar.compareDate(calendarModel.datesBurger[i],dateOnFocus)){
+                                        return true
+                                    }
+                                }
+                            }
+
+                            return false
+                        }
                     }
                 }
 
@@ -82,18 +94,10 @@ Rectangle {
                 }
 
 
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked:  {
-                        if(!styleData.visibleMonth){
-                            return
-                        }
-                        calendar.selectedDate = dateOnFocus
-                    }
-
-                }
-
             }
+        }
+        function compareDate(lhs, rhs){
+            return (lhs.getDate() === rhs.getDate() && lhs.getFullYear() === rhs.getFullYear() && lhs.getMonth() === rhs.getMonth())
         }
     }
 }
