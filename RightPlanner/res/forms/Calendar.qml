@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4 as V
 import QtQuick.Controls.Styles 1.1
+import MyQmlEnums 1.1
 
 
 import "../components"
@@ -49,6 +50,38 @@ Rectangle {
                         return "white"
                     }
 
+                    Label{
+                        anchors.fill: parent
+                        color: "red"
+                        font.pixelSize: 20
+                        text:{
+                            var string = "";
+
+                            if(calendarModel !== null){
+
+                                var vec = calendarModel.getSomething(styleData.date);
+                                console.log(vec.length)
+                                for(var i = 0; i < vec.length; i++){
+                                    if(vec[i] === Something.Burger){
+                                        string+="burger\n"
+                                    }
+                                    if(vec[i] === Something.Cola){
+                                        string+="cola\n"
+                                    }
+                                }
+                            }
+                            return string
+
+                        }
+                    }
+
+
+
+
+
+
+
+/*
                     Image {
                         id: imgBurger
                         anchors.fill: parent
@@ -70,7 +103,6 @@ Rectangle {
                             target: calendarModel
 
                             onDatesBurgerChanged:{
-                                console.log("good")
                                 if(calendarModel !== null){
                                     for(var i = 0; i < calendarModel.datesBurger.length; i++){
                                         if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
@@ -84,6 +116,8 @@ Rectangle {
                             }
                         }
                     }
+
+                */
                 }
 
                 Rectangle{
@@ -174,7 +208,7 @@ Rectangle {
             anchors.margins: 10
             text: qsTr("Обновить")
             onClicked: {
-                calendarModel.addSomething(calendar.selectedDate , [1,2,3])
+                //calendarModel.addSomething(calendar.selectedDate , [1,2,3])
                 rectAdd.visible = false
             }
         }

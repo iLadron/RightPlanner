@@ -5,28 +5,36 @@
 #include <QDateTime>
 #include <QVariantList>
 #include <map>
+#include <QQmlEngine>
+#include <QtGlobal>
+
 
 class CalendarModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariantList datesBurger READ datesBurger WRITE setDatesBurger NOTIFY datesBurgerChanged)
 public:
-    CalendarModel();    
 
-    QVariantList datesBurger() const;
+    enum Something {
+        Burger,
+        Cola,
+        Other
+    };
+
+    Q_ENUMS(Something)
+
+    CalendarModel();
+    void declareEnumToQml();
+
+
 
 public slots:
-    void setDatesBurger(QVariantList datesBurger);
-    void addSomething(const QDateTime& date, const QVector<int>& checked);
-
+    std::vector<int> getSomething(const QDateTime& date) const;
 signals:
-    void datesBurgerChanged(QVariantList datesBurger);
 
 private:
 
-    QVariantList m_datesBurger;
-    std::map<QDateTime, vector<int>> m_calendar;
+    std::map<QDate, std::vector<int>> m_calendar;
 };
 
 #endif // CALENDARMODEL_H

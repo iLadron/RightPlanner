@@ -5,37 +5,22 @@ CalendarModel::CalendarModel()
     time_t date1 = 1629279744;
     time_t date2 = 1627638144;
     time_t date3 = 1629452544;
-    QVariantList dates;
-    dates.append(QDateTime::fromTime_t(date1));
-    dates.append(QDateTime::fromTime_t(date2));
-    dates.append(QDateTime::fromTime_t(date3));
 
-    setDatesBurger(dates);
+    m_calendar.insert({QDateTime::fromTime_t(date1).date(), {Something::Burger}});
+    m_calendar.insert({QDateTime::fromTime_t(date2).date(), {Something::Burger, Something::Cola}});
+    m_calendar.insert({QDateTime::fromTime_t(date3).date(), {Something::Cola}});
+
 }
 
-QVariantList CalendarModel::datesBurger() const
+void CalendarModel::declareEnumToQml()
 {
-    return m_datesBurger;
+    qmlRegisterType<CalendarModel>("MyQmlEnums", 1, 1, "Something");
 }
 
-void CalendarModel::setDatesBurger(QVariantList datesBurger)
+std::vector<int> CalendarModel::getSomething(const QDateTime &date) const
 {
-    if (m_datesBurger == datesBurger)
-        return;
-
-    m_datesBurger = datesBurger;
-    emit datesBurgerChanged(m_datesBurger);
-}
-
-#include <QDebug>
-
-void CalendarModel::addSomething(const QDateTime& date, const QVector<int>& checked)
-{
-
-    qDebug()<<date;
-    m_datesBurger.append(date);
-    emit datesBurgerChanged(m_datesBurger);
-    for(const auto& item : checked){
-        qDebug()<<item;
+    if(m_calendar.find(date.date()) != m_calendar.end()){
+        return m_calendar.at(date.date());
     }
+    return {};
 }
