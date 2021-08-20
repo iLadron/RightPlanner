@@ -53,17 +53,35 @@ Rectangle {
                         id: imgBurger
                         anchors.fill: parent
                         source: "qrc:/res/images/png/burger.png"
-
+                        property var myModel: calendarModel
                         visible: {
                             if(calendarModel !== null){
                                 for(var i = 0; i < calendarModel.datesBurger.length; i++){
-                                    if(calendar.compareDate(calendarModel.datesBurger[i],dateOnFocus)){
+                                    if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
                                         return true
                                     }
                                 }
                             }
 
                             return false
+                        }
+
+                        Connections{
+                            target: calendarModel
+
+                            onDatesBurgerChanged:{
+                                console.log("good")
+                                if(calendarModel !== null){
+                                    for(var i = 0; i < calendarModel.datesBurger.length; i++){
+                                        if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
+                                            imgBurger.visible = true
+                                            return
+                                        }
+                                    }
+                                }
+
+                                imgBurger.visible =  false
+                            }
                         }
                     }
                 }
@@ -94,10 +112,71 @@ Rectangle {
                 }
 
 
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        calendar.selectedDate = styleData.date
+                    }
+                    onDoubleClicked: {
+                        rectAdd.visible = true
+                    }
+                }
+
             }
         }
         function compareDate(lhs, rhs){
             return (lhs.getDate() === rhs.getDate() && lhs.getFullYear() === rhs.getFullYear() && lhs.getMonth() === rhs.getMonth())
+        }
+    }
+
+
+    Rectangle{
+        id: rectAdd
+        anchors.centerIn: parent
+        visible:  false
+        width: 200
+        height: 200
+        color: "green"
+
+        ListView{
+            anchors.top:parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom:  btnAdd.top
+            delegate: RowLayout{
+                CheckBox{
+
+                }
+                Text{
+                    text: name
+                }
+            }
+
+            model: ListModel {
+                ListElement {
+                    name: qsTr("Бургер")
+                }
+                ListElement {
+                    name: qsTr("Кола")
+                }
+                ListElement {
+                    name: qsTr("Ещё что-то")
+                }
+            }
+
+        }
+
+        Button{
+            id:btnAdd
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 10
+            text: qsTr("Обновить")
+            onClicked: {
+                calendarModel.addSomething(calendar.selectedDate , [1,2,3])
+                rectAdd.visible = false
+            }
         }
     }
 }

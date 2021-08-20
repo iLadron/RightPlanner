@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QVariantList>
+#include <map>
 
 class CalendarModel : public QObject
 {
@@ -17,6 +18,7 @@ public:
 
 public slots:
     void setDatesBurger(QVariantList datesBurger);
+    void addSomething(const QDateTime& date, const QVector<int>& checked);
 
 signals:
     void datesBurgerChanged(QVariantList datesBurger);
@@ -24,6 +26,7 @@ signals:
 private:
 
     QVariantList m_datesBurger;
+    std::map<QDateTime, vector<int>> m_calendar;
 };
 
 #endif // CALENDARMODEL_H

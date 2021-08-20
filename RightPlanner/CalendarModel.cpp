@@ -26,3 +26,16 @@ void CalendarModel::setDatesBurger(QVariantList datesBurger)
     m_datesBurger = datesBurger;
     emit datesBurgerChanged(m_datesBurger);
 }
+
+#include <QDebug>
+
+void CalendarModel::addSomething(const QDateTime& date, const QVector<int>& checked)
+{
+
+    qDebug()<<date;
+    m_datesBurger.append(date);
+    emit datesBurgerChanged(m_datesBurger);
+    for(const auto& item : checked){
+        qDebug()<<item;
+    }
+}
