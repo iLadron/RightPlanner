@@ -24,3 +24,9 @@ std::vector<int> CalendarModel::getSomething(const QDateTime &date) const
     }
     return {};
 }
+
+void CalendarModel::addSomething(const QDateTime& date, std::vector<int> data)
+{
+    m_calendar[date.date()] = data;
+    emit calendarChanged();
+}

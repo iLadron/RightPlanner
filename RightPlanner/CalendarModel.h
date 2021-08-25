@@ -30,7 +30,9 @@ public:
 
 public slots:
     std::vector<int> getSomething(const QDateTime& date) const;
+    void addSomething(const QDateTime& date, std::vector<int> data);
 signals:
+    void calendarChanged();
 
 private:
 

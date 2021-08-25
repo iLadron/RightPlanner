@@ -30,9 +30,10 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.topMargin: 10
+        anchors.topMargin: 10        
 
         style: CalendarStyle{
+
 
             dayDelegate: Item {
                 property var dateOnFocus: styleData.date
@@ -51,35 +52,32 @@ Rectangle {
                     }
 
                     Label{
+                        id:txt
                         anchors.fill: parent
                         color: "red"
                         font.pixelSize: 20
-                        text:{
-                            var string = "";
 
-                            if(calendarModel !== null){
+                        Connections{
+                            target: calendarModel
+                            onCalendarChanged:{
+                                var string = "";
 
-                                var vec = calendarModel.getSomething(styleData.date);
-                                console.log(vec.length)
-                                for(var i = 0; i < vec.length; i++){
-                                    if(vec[i] === Something.Burger){
-                                        string+="burger\n"
-                                    }
-                                    if(vec[i] === Something.Cola){
-                                        string+="cola\n"
+                                if(calendarModel !== null){
+
+                                    var vec = calendarModel.getSomething(styleData.date);
+                                    for(var i = 0; i < vec.length; i++){
+                                        if(vec[i] === Something.Burger){
+                                            string+="burger\n"
+                                        }
+                                        if(vec[i] === Something.Cola){
+                                            string+="cola\n"
+                                        }
                                     }
                                 }
+                                txt.text = string
                             }
-                            return string
-
                         }
                     }
-
-
-
-
-
-
 
 /*
                     Image {
@@ -153,9 +151,40 @@ Rectangle {
                     }
                     onDoubleClicked: {
                         rectAdd.visible = true
+                        var arraySomething = calendarModel.getSomething(styleData.date)
+                        for(var i = 0; i < listSomething.count; i++){
+                            listSomething.itemAtIndex(i).children[0].checked = false
+                        }
+                        for(i = 0; i < arraySomething.length; i++){
+                            listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
+                        }
                     }
                 }
 
+            }
+
+            Component.onCompleted: {
+                calendarRefresh()
+            }
+
+            function calendarRefresh(){
+                var string = "";
+
+                if(calendarModel !== null){
+
+                    console.log(styleData)
+                    var vec = calendarModel.getSomething(styleData.date);
+                    for(var i = 0; i < vec.length; i++){
+                        if(vec[i] === Something.Burger){
+                            console.log("asd")
+                            string+="burger\n"
+                        }
+                        if(vec[i] === Something.Cola){
+                            string+="cola\n"
+                        }
+                    }
+                }
+                txt.text = string
             }
         }
         function compareDate(lhs, rhs){
@@ -169,10 +198,11 @@ Rectangle {
         anchors.centerIn: parent
         visible:  false
         width: 200
-        height: 200
+        height: 300
         color: "green"
 
         ListView{
+            id:listSomething
             anchors.top:parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -202,14 +232,32 @@ Rectangle {
 
         Button{
             id:btnAdd
-            anchors.bottom: parent.bottom
+            anchors.bottom: btnAddCategory.top
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 10
             text: qsTr("Обновить")
             onClicked: {
-                //calendarModel.addSomething(calendar.selectedDate , [1,2,3])
+                var arraySomething = [];
+                for(var i = 0; i < listSomething.count; i++){
+                    if(listSomething.itemAtIndex(i).children[0].checked){
+                        arraySomething.push(i)
+                    }
+                }
+                calendarModel.addSomething(calendar.selectedDate, arraySomething)
                 rectAdd.visible = false
+            }
+        }
+
+        Button{
+            id:btnAddCategory
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 10
+            text: qsTr("Добавить")
+            onClicked: {
+
             }
         }
     }
