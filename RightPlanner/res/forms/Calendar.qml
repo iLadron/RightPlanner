@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4 as V
 import QtQuick.Controls.Styles 1.1
-import MyQmlEnums 1.1
+//import MyQmlEnums 1.1
 
 
 import "../components"
@@ -89,8 +89,6 @@ Rectangle {
                             bold: true
                             pixelSize: 20
                         }
-
-
                     }
                 }
 
@@ -103,7 +101,16 @@ Rectangle {
                     onDoubleClicked: {
                         rectAdd.visible = true
                         var arraySomething = calendarModel.getSomething(styleData.date)
-                        for(var i = 0; i < listSomething.count; i++){
+                        var arraySomethingName = calendarModel.getSomethingVector();
+
+                        console.log(arraySomethingName)
+
+                        for(var i = 0; i < arraySomethingName.length; i++){
+                            listModel.append({name: arraySomethingName[i]})
+                        }
+
+
+                        for(i = 0; i < listSomething.count; i++){
                             listSomething.itemAtIndex(i).children[0].checked = false
                         }
                         for(i = 0; i < arraySomething.length; i++){
@@ -116,18 +123,12 @@ Rectangle {
                     if(calendarModel !== null){
                         var vec = calendarModel.getSomething(styleData.date);
                         for(var i = 0; i < vec.length; i++){
-                            if(vec[i] === Something.Burger){
-                                console.log("asd")
-                                string+="burger\n"
-                            }
-                            if(vec[i] === Something.Cola){
-                                string+="cola\n"
-                            }
+
+                            string += calendarModel.getSomethingName(vec[i]) + '\n'
                         }
                     }
                     txt.text = string
                 }
-
             }
         }
         function compareDate(lhs, rhs){
@@ -144,6 +145,11 @@ Rectangle {
         height: 300
         color: "green"
 
+
+        ListModel {
+            id:listModel
+        }
+
         ListView{
             id:listSomething
             anchors.top:parent.top
@@ -159,17 +165,8 @@ Rectangle {
                 }
             }
 
-            model: ListModel {
-                ListElement {
-                    name: qsTr("Бургер")
-                }
-                ListElement {
-                    name: qsTr("Кола")
-                }
-                ListElement {
-                    name: qsTr("Ещё что-то")
-                }
-            }
+
+
 
         }
 
