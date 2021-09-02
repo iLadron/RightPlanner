@@ -37,6 +37,10 @@ Rectangle {
 
             dayDelegate: Item {
                 property var dateOnFocus: styleData.date
+                property var currentMounth: styleData.date.getMonth()
+
+                onCurrentMounthChanged: calendarRefresh()
+
                 opacity: styleData.visibleMonth ? 1.0 : 0.5
                 Rectangle {
                     id:rectDay
@@ -59,63 +63,10 @@ Rectangle {
 
                         Connections{
                             target: calendarModel
-                            onCalendarChanged:{
-                                var string = "";
-
-                                if(calendarModel !== null){
-
-                                    var vec = calendarModel.getSomething(styleData.date);
-                                    for(var i = 0; i < vec.length; i++){
-                                        if(vec[i] === Something.Burger){
-                                            string+="burger\n"
-                                        }
-                                        if(vec[i] === Something.Cola){
-                                            string+="cola\n"
-                                        }
-                                    }
-                                }
-                                txt.text = string
-                            }
+                            onCalendarChanged: calendarRefresh()
                         }
                     }
 
-/*
-                    Image {
-                        id: imgBurger
-                        anchors.fill: parent
-                        source: "qrc:/res/images/png/burger.png"
-                        property var myModel: calendarModel
-                        visible: {
-                            if(calendarModel !== null){
-                                for(var i = 0; i < calendarModel.datesBurger.length; i++){
-                                    if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
-                                        return true
-                                    }
-                                }
-                            }
-
-                            return false
-                        }
-
-                        Connections{
-                            target: calendarModel
-
-                            onDatesBurgerChanged:{
-                                if(calendarModel !== null){
-                                    for(var i = 0; i < calendarModel.datesBurger.length; i++){
-                                        if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
-                                            imgBurger.visible = true
-                                            return
-                                        }
-                                    }
-                                }
-
-                                imgBurger.visible =  false
-                            }
-                        }
-                    }
-
-                */
                 }
 
                 Rectangle{
@@ -160,31 +111,23 @@ Rectangle {
                         }
                     }
                 }
-
-            }
-
-            Component.onCompleted: {
-                calendarRefresh()
-            }
-
-            function calendarRefresh(){
-                var string = "";
-
-                if(calendarModel !== null){
-
-                    console.log(styleData)
-                    var vec = calendarModel.getSomething(styleData.date);
-                    for(var i = 0; i < vec.length; i++){
-                        if(vec[i] === Something.Burger){
-                            console.log("asd")
-                            string+="burger\n"
-                        }
-                        if(vec[i] === Something.Cola){
-                            string+="cola\n"
+                function calendarRefresh(){
+                    var string = "";
+                    if(calendarModel !== null){
+                        var vec = calendarModel.getSomething(styleData.date);
+                        for(var i = 0; i < vec.length; i++){
+                            if(vec[i] === Something.Burger){
+                                console.log("asd")
+                                string+="burger\n"
+                            }
+                            if(vec[i] === Something.Cola){
+                                string+="cola\n"
+                            }
                         }
                     }
+                    txt.text = string
                 }
-                txt.text = string
+
             }
         }
         function compareDate(lhs, rhs){
@@ -262,3 +205,59 @@ Rectangle {
         }
     }
 }
+
+
+
+//Заготовка для гифок
+
+//AnimatedImage{
+//    id:anima
+//    z:100
+//    anchors.fill: parent
+//    visible: styleData.visibleMonth
+//    source: "qrc:/res/images/gif/dog.gif"
+//    onStatusChanged: playing = (status == AnimatedImage.Ready)
+//    speed: styleData.date
+//}
+
+
+
+
+//Заготовка для картинок (возможно, уже не актуально)
+
+//Image {
+//    id: imgBurger
+//    anchors.fill: parent
+//    source: "qrc:/res/images/png/burger.png"
+//    property var myModel: calendarModel
+//    visible: {
+//        if(calendarModel !== null){
+//            for(var i = 0; i < calendarModel.datesBurger.length; i++){
+//                if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
+//                    return true
+//                }
+//            }
+//        }
+
+//        return false
+//    }
+
+//    Connections{
+//        target: calendarModel
+
+//        onDatesBurgerChanged:{
+//            if(calendarModel !== null){
+//                for(var i = 0; i < calendarModel.datesBurger.length; i++){
+//                    if(calendar.compareDate(calendarModel.datesBurger[i], dateOnFocus)){
+//                        imgBurger.visible = true
+//                        return
+//                    }
+//                }
+//            }
+
+//            imgBurger.visible =  false
+//        }
+//    }
+//}
+
+

@@ -3,5 +3,6 @@
         <file>res/forms/Calendar.qml</file>
         <file>res/components/LabelPlanner.qml</file>
         <file>res/images/png/burger.png</file>
+        <file>res/images/gif/dog.gif</file>
     </qresource>
 </RCC>

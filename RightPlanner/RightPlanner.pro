@@ -35,7 +35,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     Calendar.qml \
     res/components/LabelPlanner.qml \
-    res/forms/Calendar.qml
+    res/forms/Calendar.qml \
+    res/images/gif/dog.gif \
+    res/images/png/burger.png
 
 RESOURCES += \
     res.qrc
