@@ -106,7 +106,7 @@ Rectangle {
                         console.log(arraySomethingName)
 
                         for(var i = 0; i < arraySomethingName.length; i++){
-                            listModel.append({name: arraySomethingName[i]})
+                            listModel.append({"name": arraySomethingName[i]})
                         }
 
 
@@ -165,7 +165,7 @@ Rectangle {
                 }
             }
 
-
+            model: listModel
 
 
         }
