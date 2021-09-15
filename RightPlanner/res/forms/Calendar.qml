@@ -105,6 +105,7 @@ Rectangle {
 
                         console.log(arraySomethingName)
 
+                        listModel.clear()
                         for(var i = 0; i < arraySomethingName.length; i++){
                             listModel.append({"name": arraySomethingName[i]})
                         }
