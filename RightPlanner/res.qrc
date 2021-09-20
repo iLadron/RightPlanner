@@ -4,5 +4,6 @@
         <file>res/components/LabelPlanner.qml</file>
         <file>res/images/png/burger.png</file>
         <file>res/images/gif/dog.gif</file>
+        <file>res/components/ComboBoxPlanner.qml</file>
     </qresource>
 </RCC>

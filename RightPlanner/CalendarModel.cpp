@@ -15,6 +15,8 @@ CalendarModel::CalendarModel()
     m_calendar.insert({QDateTime::fromTime_t(date2).date(), {0, 1}});
     m_calendar.insert({QDateTime::fromTime_t(date3).date(), {1}});
 
+    m_users = DataBase::get()->getUsers();
+    changeUser(0);
 }
 
 //void CalendarModel::declareEnumToQml()
@@ -48,4 +50,20 @@ QStringList CalendarModel::getSomethingVector() const
         res.append(QString::fromStdString(el));
     }
     return res;
+}
+
+QStringList CalendarModel::getUsersNames() const
+{
+    QStringList names;
+    for(const auto& user : m_users){
+        names.push_back(user.name);
+    }
+
+    return names;
+}
+
+void CalendarModel::changeUser(int index)
+{
+    m_calendar = DataBase::get()->getUsersSomething(m_users.at(index).id);
+    emit calendarChanged();
 }

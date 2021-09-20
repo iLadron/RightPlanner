@@ -19,9 +19,17 @@ Rectangle {
         LabelPlanner{
             text: qsTr("Пользователь: ")
         }
-        LabelPlanner{
-            text: qsTr("Андрей")
+
+        ComboBoxPlanner{
+            Component.onCompleted: {
+                model = calendarModel.getUsersNames()
+            }
+
+            onCurrentIndexChanged: {
+                calendarModel.changeUser(currentIndex)
+            }
         }
+
     }
 
     V.Calendar{
@@ -99,24 +107,27 @@ Rectangle {
                         calendar.selectedDate = styleData.date
                     }
                     onDoubleClicked: {
-                        rectAdd.visible = true
                         var arraySomething = calendarModel.getSomething(styleData.date)
                         var arraySomethingName = calendarModel.getSomethingVector();
 
-                        console.log(arraySomethingName)
-
                         listModel.clear()
                         for(var i = 0; i < arraySomethingName.length; i++){
-                            listModel.append({"name": arraySomethingName[i]})
+                            console.log(arraySomething.indexOf(i))
+                            listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
                         }
 
+                        //listSomething.forceLayout()
+
+                        for(i = 0; i < arraySomething.length; i++){
+                            listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
+                        }
 
                         for(i = 0; i < listSomething.count; i++){
                             listSomething.itemAtIndex(i).children[0].checked = false
                         }
-                        for(i = 0; i < arraySomething.length; i++){
-                            listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
-                        }
+
+                        rectAdd.visible = true
+
                     }
                 }
                 function calendarRefresh(){
@@ -141,15 +152,15 @@ Rectangle {
     Rectangle{
         id: rectAdd
         anchors.centerIn: parent
-        visible:  false
+        visible: false
         width: 200
         height: 300
         color: "green"
 
-
         ListModel {
             id:listModel
         }
+
 
         ListView{
             id:listSomething
@@ -159,7 +170,7 @@ Rectangle {
             anchors.bottom:  btnAdd.top
             delegate: RowLayout{
                 CheckBox{
-
+                    checked: qwe
                 }
                 Text{
                     text: name
@@ -198,7 +209,7 @@ Rectangle {
             anchors.margins: 10
             text: qsTr("Добавить")
             onClicked: {
-
+listSomething.itemAtIndex(0).children[0].checked = !listSomething.itemAtIndex(0).children[0].checked
             }
         }
     }

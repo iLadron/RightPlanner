@@ -34,6 +34,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Calendar.qml \
+    res/components/ComboBoxPlanner.qml \
     res/components/LabelPlanner.qml \
     res/forms/Calendar.qml \
     res/images/gif/dog.gif \
@@ -41,3 +42,10 @@ DISTFILES += \
 
 RESOURCES += \
     res.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../DataBase/release/ -lDataBase
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../DataBase/debug/ -lDataBase
+else:unix: LIBS += -L$$PWD/../DataBase/ -lDataBase
+
+INCLUDEPATH += $$PWD/../DataBase
+DEPENDPATH += $$PWD/../DataBase
