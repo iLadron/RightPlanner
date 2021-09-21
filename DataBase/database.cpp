@@ -24,6 +24,16 @@ std::map<QDate, std::vector<int> > DataBase::getUsersSomething(int id) const
     }
 }
 
+void DataBase::addSomething(int id, const QDateTime &date, std::vector<int> data)
+{
+    if(id == 1){
+       m_calendarLika[date.date()] = data;
+    }
+    else {
+        m_calendarAndrey[date.date()] = data;
+    }
+}
+
 DataBase::DataBase()
 {
     User tempUser;

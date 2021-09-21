@@ -26,7 +26,7 @@ public slots:
     QString getSomethingName(int index) const;                          //Получить наименование вредностей
     QStringList getSomethingVector() const;                             //Получить вектор вредностей (вызов из QML)
     QStringList getUsersNames() const;                                  //Получить список пользователей
-    void changeUser(int index);                                            //Сменить пользователя
+    void changeUser(int index);                                         //Сменить пользователя
 
 signals:
     void calendarChanged();
@@ -36,6 +36,7 @@ private:
     std::map<QDate, std::vector<int>> m_calendar; //День + вредности
     std::vector<std::string> m_something; //Вектор вредностей
     std::vector<User> m_users; //Пользователи
+    int m_currentUserIndex = -1;
 };
 
 #endif // CALENDARMODEL_H

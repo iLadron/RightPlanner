@@ -35,6 +35,7 @@ std::vector<int> CalendarModel::getSomething(const QDateTime &date) const
 void CalendarModel::addSomething(const QDateTime& date, std::vector<int> data)
 {
     m_calendar[date.date()] = data;
+    DataBase::get()->addSomething(m_users.at(m_currentUserIndex).id, date, data);
     emit calendarChanged();
 }
 
@@ -65,5 +66,6 @@ QStringList CalendarModel::getUsersNames() const
 void CalendarModel::changeUser(int index)
 {
     m_calendar = DataBase::get()->getUsersSomething(m_users.at(index).id);
+    m_currentUserIndex = index;
     emit calendarChanged();
 }

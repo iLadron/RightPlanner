@@ -203,13 +203,25 @@ Rectangle {
 
         Button{
             id:btnAddCategory
+            anchors.bottom: btnClose.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 10
+            text: qsTr("Добавить (не работает)")
+            onClicked: {
+
+            }
+        }
+
+        Button{
+            id:btnClose
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 10
-            text: qsTr("Добавить")
+            text: qsTr("Закрыть")
             onClicked: {
-listSomething.itemAtIndex(0).children[0].checked = !listSomething.itemAtIndex(0).children[0].checked
+                rectAdd.visible = false
             }
         }
     }

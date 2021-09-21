@@ -20,6 +20,7 @@ public:
     static DataBase *get();
     std::vector<User> getUsers();
     std::map<QDate, std::vector<int>> getUsersSomething(int id) const;
+    void addSomething(int id, const QDateTime& date, std::vector<int> data);
 
 protected:
     DataBase();
