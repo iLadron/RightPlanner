@@ -119,7 +119,6 @@ Rectangle {
 
                         }
                         onClicked: {
-                            console.log("click")
                             calendar.selectedDate = styleData.date
 
                             if(timer.running){
@@ -128,11 +127,8 @@ Rectangle {
 
                                 listModel.clear()
                                 for(var i = 0; i < arraySomethingName.length; i++){
-                                    console.log(arraySomething.indexOf(i))
-                                    listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
+                                    listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) !== -1)})
                                 }
-
-                                //listSomething.forceLayout()
 
                                 for(i = 0; i < arraySomething.length; i++){
                                     listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
