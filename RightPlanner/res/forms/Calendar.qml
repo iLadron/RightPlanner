@@ -1,8 +1,9 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4 as V
+import QtQuick.Controls 1.4 as V   //for calendar
 import QtQuick.Controls.Styles 1.1
+import QtGraphicalEffects 1.12
 //import MyQmlEnums 1.1
 
 
@@ -13,141 +14,158 @@ Rectangle {
     anchors.fill: parent
     color: "blue"
 
-    RowLayout{
-        id: rowUser
-        height: 24
-        LabelPlanner{
-            text: qsTr("Пользователь: ")
-        }
+    Rectangle{
+        id:mainPage
+        anchors.fill: parent
+        color: "blue"
 
-        ComboBoxPlanner{
-            Component.onCompleted: {
-                model = calendarModel.getUsersNames()
+        enabled: !rectAdd.visible
+
+        RowLayout{
+            id: rowUser
+            height: 24
+            LabelPlanner{
+                text: qsTr("Пользователь: ")
             }
 
-            onCurrentIndexChanged: {
-                calendarModel.changeUser(currentIndex)
-            }
-        }
-
-    }
-
-    V.Calendar{
-        id:calendar
-        anchors.top:rowUser.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.topMargin: 10        
-
-        style: CalendarStyle{
-
-
-            dayDelegate: Item {
-                property var dateOnFocus: styleData.date
-                property var currentMounth: styleData.date.getMonth()
-
-                onCurrentMounthChanged: calendarRefresh()
-
-                opacity: styleData.visibleMonth ? 1.0 : 0.5
-                Rectangle {
-                    id:rectDay
-                    anchors.fill: parent
-                    border.color: "grey"
-                    border.width: 1
-
-                    color: {
-                        if(styleData.selected && styleData.visibleMonth){
-                            return "blue"
-                        }
-                        return "white"
-                    }
-
-                    Label{
-                        id:txt
-                        anchors.fill: parent
-                        color: "red"
-                        font.pixelSize: 20
-
-                        Connections{
-                            target: calendarModel
-                            onCalendarChanged: calendarRefresh()
-                        }
-                    }
-
+            ComboBoxPlanner{
+                Component.onCompleted: {
+                    model = calendarModel.getUsersNames()
                 }
 
-                Rectangle{
-                    anchors.centerIn: parent
-                    height: 25
-                    width: 25
-                    color: "lightgrey"
-                    Label {
-                        id:lblTextDate
-                        text: dateOnFocus.getDate()
-                        anchors.centerIn: parent
+                onCurrentIndexChanged: {
+                    calendarModel.changeUser(currentIndex)
+                }
+            }
+
+        }
+
+
+        V.Calendar{
+            id:calendar
+            anchors.top:rowUser.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 10
+
+            style: CalendarStyle{
+
+
+                dayDelegate: Item {
+                    property var dateOnFocus: styleData.date
+                    property var currentMounth: styleData.date.getMonth()
+
+                    onCurrentMounthChanged: calendarRefresh()
+
+                    opacity: styleData.visibleMonth ? 1.0 : 0.5
+                    Rectangle {
+                        id:rectDay
+                        anchors.fill: parent
+                        border.color: "grey"
+                        border.width: 1
+
                         color: {
-                            if(!styleData.visibleMonth){
-                                return "red"
-                            }else{
-                                return styleData.selected ? "red" : "red"
+                            if(styleData.selected && styleData.visibleMonth){
+                                return "blue"
+                            }
+                            return "white"
+                        }
+
+                        Label{
+                            id:txt
+                            anchors.fill: parent
+                            color: "red"
+                            font.pixelSize: 20
+
+                            Connections{
+                                target: calendarModel
+                                onCalendarChanged: calendarRefresh()
                             }
                         }
-                        font {
-                            bold: true
-                            pixelSize: 20
-                        }
-                    }
-                }
-
-
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        calendar.selectedDate = styleData.date
-                    }
-                    onDoubleClicked: {
-                        var arraySomething = calendarModel.getSomething(styleData.date)
-                        var arraySomethingName = calendarModel.getSomethingVector();
-
-                        listModel.clear()
-                        for(var i = 0; i < arraySomethingName.length; i++){
-                            console.log(arraySomething.indexOf(i))
-                            listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
-                        }
-
-                        //listSomething.forceLayout()
-
-                        for(i = 0; i < arraySomething.length; i++){
-                            listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
-                        }
-
-                        for(i = 0; i < listSomething.count; i++){
-                            listSomething.itemAtIndex(i).children[0].checked = false
-                        }
-
-                        rectAdd.visible = true
 
                     }
-                }
-                function calendarRefresh(){
-                    var string = "";
-                    if(calendarModel !== null){
-                        var vec = calendarModel.getSomething(styleData.date);
-                        for(var i = 0; i < vec.length; i++){
 
-                            string += calendarModel.getSomethingName(vec[i]) + '\n'
+                    Rectangle{
+                        anchors.centerIn: parent
+                        height: 25
+                        width: 25
+                        color: "lightgrey"
+                        Label {
+                            id:lblTextDate
+                            text: dateOnFocus.getDate()
+                            anchors.centerIn: parent
+                            color: {
+                                if(!styleData.visibleMonth){
+                                    return "red"
+                                }else{
+                                    return styleData.selected ? "red" : "red"
+                                }
+                            }
+                            font {
+                                bold: true
+                                pixelSize: 20
+                            }
                         }
                     }
-                    txt.text = string
+
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            calendar.selectedDate = styleData.date
+                        }
+                        onDoubleClicked: {
+                            var arraySomething = calendarModel.getSomething(styleData.date)
+                            var arraySomethingName = calendarModel.getSomethingVector();
+
+                            listModel.clear()
+                            for(var i = 0; i < arraySomethingName.length; i++){
+                                console.log(arraySomething.indexOf(i))
+                                listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
+                            }
+
+                            listSomething.forceLayout()
+
+                            for(i = 0; i < arraySomething.length; i++){
+                                listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
+                            }
+
+                            for(i = 0; i < listSomething.count; i++){
+                                listSomething.itemAtIndex(i).children[0].checked = false
+                            }
+
+                            rectAdd.visible = true
+
+                        }
+                    }
+                    function calendarRefresh(){
+                        var string = "";
+                        if(calendarModel !== null){
+                            var vec = calendarModel.getSomething(styleData.date);
+                            for(var i = 0; i < vec.length; i++){
+
+                                string += calendarModel.getSomethingName(vec[i]) + '\n'
+                            }
+                        }
+                        txt.text = string
+                    }
                 }
             }
+            function compareDate(lhs, rhs){
+                return (lhs.getDate() === rhs.getDate() && lhs.getFullYear() === rhs.getFullYear() && lhs.getMonth() === rhs.getMonth())
+            }
         }
-        function compareDate(lhs, rhs){
-            return (lhs.getDate() === rhs.getDate() && lhs.getFullYear() === rhs.getFullYear() && lhs.getMonth() === rhs.getMonth())
-        }
+
     }
 
+
+    FastBlur{
+        radius: 8
+        source: mainPage
+        anchors.fill: mainPage
+        visible: rectAdd.visible
+    }
 
     Rectangle{
         id: rectAdd
