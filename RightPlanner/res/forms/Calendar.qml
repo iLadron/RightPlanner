@@ -112,33 +112,47 @@ Rectangle {
 
                     MouseArea{
                         anchors.fill: parent
-                        onClicked: {
-                            calendar.selectedDate = styleData.date
+
+                        Timer{
+                            id: timer
+                            interval: 200
+
                         }
-                        onDoubleClicked: {
-                            var arraySomething = calendarModel.getSomething(styleData.date)
-                            var arraySomethingName = calendarModel.getSomethingVector();
+                        onClicked: {
+                            console.log("click")
+                            calendar.selectedDate = styleData.date
 
-                            listModel.clear()
-                            for(var i = 0; i < arraySomethingName.length; i++){
-                                console.log(arraySomething.indexOf(i))
-                                listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
+                            if(timer.running){
+                                var arraySomething = calendarModel.getSomething(styleData.date)
+                                var arraySomethingName = calendarModel.getSomethingVector();
+
+                                listModel.clear()
+                                for(var i = 0; i < arraySomethingName.length; i++){
+                                    console.log(arraySomething.indexOf(i))
+                                    listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) === -1 ? false : true)})
+                                }
+
+                                //listSomething.forceLayout()
+
+                                for(i = 0; i < arraySomething.length; i++){
+                                    listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
+                                }
+
+                                for(i = 0; i < listSomething.count; i++){
+                                    listSomething.itemAtIndex(i).children[0].checked = false
+                                }
+
+                                rectAdd.visible = true
+                                timer.stop()
                             }
-
-                            listSomething.forceLayout()
-
-                            for(i = 0; i < arraySomething.length; i++){
-                                listSomething.itemAtIndex(arraySomething[i]).children[0].checked = true
+                            else {
+                                timer.restart()
                             }
-
-                            for(i = 0; i < listSomething.count; i++){
-                                listSomething.itemAtIndex(i).children[0].checked = false
-                            }
-
-                            rectAdd.visible = true
 
                         }
                     }
+
+
                     function calendarRefresh(){
                         var string = "";
                         if(calendarModel !== null){
@@ -179,6 +193,12 @@ Rectangle {
             id:listModel
         }
 
+
+        onVisibleChanged: {
+            if(!visible){
+                calendar.focus = true
+            }
+        }
 
         ListView{
             id:listSomething
