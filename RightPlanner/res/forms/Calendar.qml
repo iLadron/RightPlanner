@@ -143,12 +143,16 @@ Rectangle {
                         }
                         onClicked: {
                             calendar.selectedDate = styleData.date
+                            calendarModel.changeDate(styleData.date)
 
                             if(timer.running){
+
+                                /*
                                 var arraySomething = calendarModel.getSomething(styleData.date)
                                 var arraySomethingName = calendarModel.getSomethingVector();
 
-                                listModel.clear()
+                                //listModel.clear()
+
                                 for(var i = 0; i < arraySomethingName.length; i++){
                                     listModel.append({"name": arraySomethingName[i], "qwe": (arraySomething.indexOf(i) !== -1)})
                                 }
@@ -160,6 +164,7 @@ Rectangle {
                                 for(i = 0; i < listSomething.count; i++){
                                     listSomething.itemAtIndex(i).children[0].checked = false
                                 }
+                                */
 
                                 rectAdd.visible = true
                                 timer.stop()
@@ -208,10 +213,12 @@ Rectangle {
         height: 300
         color: "green"
 
+
+        /*
         ListModel {
             id:listModel
         }
-
+*/
 
         onVisibleChanged: {
             if(!visible){
@@ -227,14 +234,14 @@ Rectangle {
             anchors.bottom:  btnAdd.top
             delegate: RowLayout{
                 CheckBox{
-                    checked: qwe
+                    checked: using
                 }
                 Text{
                     text: name
                 }
             }
 
-            model: listModel
+            model: badModel
 
 
         }

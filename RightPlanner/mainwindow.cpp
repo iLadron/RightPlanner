@@ -10,6 +10,8 @@ MainWindow::MainWindow() {
     //m_calendarModel->declareEnumToQml();
 
     rootContext()->setContextProperty("calendarModel", m_calendarModel.get());
+    rootContext()->setContextProperty("badModel", m_calendarModel.get()->getBadModel());
+
     setSource(QUrl("qrc:/res/forms/Calendar.qml"));
 
 }
