@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4 as V   //for calendar
 import QtQuick.Controls.Styles 1.1
 import QtGraphicalEffects 1.12
+import Theme 1.0
 //import MyQmlEnums 1.1
 
 
@@ -13,6 +14,10 @@ import "../images/png"
 Rectangle {
     anchors.fill: parent
     color: "blue"
+
+    Component.onCompleted: {
+        Theme.theme = 0
+    }
 
     Rectangle{
         id:mainPage
@@ -35,6 +40,24 @@ Rectangle {
 
                 onCurrentIndexChanged: {
                     calendarModel.changeUser(currentIndex)
+                }
+            }
+
+        }
+
+        RowLayout{
+            id: rowTheme
+            anchors.right: parent.right
+            height: 24
+            LabelPlanner{
+                text: qsTr("Тема: ")
+            }
+
+            ComboBoxPlanner{
+                model: ["Тема 1", "Тема 2"]
+
+                onCurrentIndexChanged: {
+                    Theme.theme = currentIndex
                 }
             }
 
@@ -67,7 +90,7 @@ Rectangle {
 
                         color: {
                             if(styleData.selected && styleData.visibleMonth){
-                                return "blue"
+                                return Theme.calendar.colorSelectedBackground
                             }
                             return "white"
                         }
@@ -97,9 +120,9 @@ Rectangle {
                             anchors.centerIn: parent
                             color: {
                                 if(!styleData.visibleMonth){
-                                    return "red"
+                                    return Theme.calendar.colorCommonText
                                 }else{
-                                    return styleData.selected ? "red" : "red"
+                                    return styleData.selected ? Theme.calendar.colorCommonText : Theme.calendar.colorCommonText
                                 }
                             }
                             font {
@@ -243,7 +266,7 @@ Rectangle {
             anchors.margins: 10
             text: qsTr("Добавить (не работает)")
             onClicked: {
-
+                console.log(Theme.calendar.colorSelectedBackground)
             }
         }
 

@@ -17,6 +17,9 @@ CalendarModel::CalendarModel()
 
     m_users = DataBase::get()->getUsers();
     changeUser(0);
+
+
+    qmlRegisterSingletonType(QUrl("qrc:/res/components/Theme.qml"), "Theme", 1, 0, "Theme");
 }
 
 //void CalendarModel::declareEnumToQml()

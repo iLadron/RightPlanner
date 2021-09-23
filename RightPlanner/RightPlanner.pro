@@ -36,6 +36,7 @@ DISTFILES += \
     Calendar.qml \
     res/components/ComboBoxPlanner.qml \
     res/components/LabelPlanner.qml \
+    res/components/Theme.qml \
     res/forms/Calendar.qml \
     res/images/gif/dog.gif \
     res/images/png/burger.png
