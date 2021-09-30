@@ -100,7 +100,10 @@ QVariant BadModel::data(const QModelIndex &index, int role) const
             return QString::fromStdString(m_something.at(index.row()));
         }
         case E_IsUsedRole:{
-            return true;
+            if(m_currentDate.isValid() && m_calendar.count(m_currentDate) != 0){
+              return std::find(m_calendar.at(m_currentDate).begin(), m_calendar.at(m_currentDate).end(), index.row()) != m_calendar.at(m_currentDate).end();
+            }
+            return false;
         }
         default:{
             return QString("nan");
@@ -125,10 +128,17 @@ const QDate &BadModel::currentDate() const
 
 void BadModel::setCurrentDate(const QDate &newCurrentDate)
 {
+    beginResetModel();
     m_currentDate = newCurrentDate;
+    endResetModel();
 }
 
 void BadModel::setCalendar(const std::map<QDate, std::vector<int> > &newCalendar)
 {
     m_calendar = newCalendar;
+}
+
+QString BadModel::getSomethingName(int i)
+{
+    return QString::fromStdString(m_something.at(i));
 }

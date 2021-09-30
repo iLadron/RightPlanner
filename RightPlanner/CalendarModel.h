@@ -10,11 +10,14 @@
 #include <QtGlobal>
 #include <QAbstractTableModel>
 #include <memory>
+#include <algorithm>
 
 #include "database.h"
 
 
 class BadModel : public QAbstractTableModel {
+
+    Q_OBJECT
 
 public:
     BadModel();
@@ -29,6 +32,10 @@ public:
     void setCurrentDate(const QDate &newCurrentDate);
 
     void setCalendar(const std::map<QDate, std::vector<int> > &newCalendar);
+
+
+public slots:
+    QString getSomethingName(int i);
 
 private:
     std::vector<std::string> m_something; //Вектор вредностей

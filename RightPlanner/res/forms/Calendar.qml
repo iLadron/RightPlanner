@@ -182,8 +182,7 @@ Rectangle {
                         if(calendarModel !== null){
                             var vec = calendarModel.getSomething(styleData.date);
                             for(var i = 0; i < vec.length; i++){
-
-                                string += calendarModel.getSomethingName(vec[i]) + '\n'
+                                string += badModel.getSomethingName(vec[i]) + '\n'
                             }
                         }
                         txt.text = string
